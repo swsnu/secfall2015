@@ -113,7 +113,7 @@
 </p>
 
 <ol>
-<li><b>Systemcall Interposition. (30pts)</b><br>
+<li><b>Systemcall Interposition. (25pts)</b><br>
 
 우리는 대상 process가 사용하는 system call을 interpose하기 위해 Linux에 기본적으로 존재하는 ptrace라는 process tracing facility를 활용한다. ptrace는 외부 process (tracer)가 특정 process (tracee)의 runtime behavior를 trace하고 대상 process (tracee)의 register 및 memory의 값들을 참조하거나 변경할 수 있는 system interface를 제공한다.
 tracer는 ptrace를 사용하 tracee가 사용하는 모든 system call에 대해 entry와 exit point를 intercept할 수 있다.
@@ -124,19 +124,40 @@ tracer는 ptrace를 사용하 tracee가 사용하는 모든 system call에 대�
 <a href="http://www.howzatt.demon.co.uk/articles/SimplePTrace.html">ptrace guide</a>)
 <br>
 <ol>
-<li>PTRACE_GETREGS: register value를 읽어 system call number와 argument를 출력해보자. 
-(참고: <a href="http://man7.org/linux/man-pages/man2/syscall.2.html">Linux system call convention.</a>)
+<li>PTRACE_GETREGS: register value를 읽어 system call number와 argument를 출력해보자. </li>
+<ul>
+<li> System call의 종류와 그 number와의 mapping 정보: /usr/include/x86_64-linux-gnu/asm/unistd_64.h</li> 
+<li> 각 system call의 argument list 및 설명: <a href="http://man7.org/linux/man-pages/dir_section_2.html"> Linux manual </a> </li>
+</ul>
 
-<li>PTRACE_SETREGS: register에 담긴 system call argument를 변경하여 원래와 다른 system call이 불려지도록 해보자.</li>
+<li>PTRACE_SETREGS: register에 담긴 system call number와 argument를 변경하여 원래와 다른 system call이 불려지도록 해보자.</li>
+<ul>
+<li> System call number는 orig_rax register에, 나머지 인자들은 rdi, rsi, rdx, r10, r8, r9 순서로 담겨집니다. (System call convention 참: <a href="http://man7.org/linux/man-pages/man2/syscall.2.html"> Linux system call manual</a>)</li> 
+</ul>
 
-<li>PTRACE_POKEDATA: argument가 address인 경우, 해당 pointer가 가리키는 memory address를 overwrite하여 system call이 다른 동작을 하도록 해보자.
-(Linux 3.2부터는 다른 process로의 data transfer를 위한 <a href="http://man7.org/linux/man-pages/man2/process_vm_readv.2.html">process_vm_readv / process_vm_writev</a>가 제공된다. 이는 특히 많은 data를 한번에 transfer하는 경우에 ptrace를 통한 memory access보다 효율적이다.)</li>
+<li>PTRACE_POKEDATA: argument가 address인 경우, 해당 pointer가 가리키는 memory address를 overwrite하여 system call이 다른 동작을 하도록 해보자.</li>
+
+<ul>
+<li>Linux 3.2부터는 다른 process로의 data transfer를 위한 <a href="http://man7.org/linux/man-pages/man2/process_vm_readv.2.html">process_vm_readv / process_vm_writev</a>가 제공된다. 이는 특히 많은 data를 한번에 transfer하는 경우에 ptrace를 통한 memory access보다 효율적이다. </li>
+</ul>
 </ol>
 <br>
 <i>Requirements></i><br>
-위의 step 2, 3에 해당하는 기능을 사용해볼 수 있는 commandline interface를 제공한다.
-사용자는 option이나 policy file을 input으로 주어 system call을 control할 수 있다.
-option 및 policy의 형태는 사용자가 편히 사용할 수 있게 정의한다.
+
+
+완성된 프로그램은 위에 기능을 사용해볼 수 있는 commandline interface를 제공한다.
+<ol>
+<li> Interposed process가 사용하는 모든 system call을 한줄에 출력한다.</li>
+<li> Command line 옵션 (e.g., -a, -b, -o) 을 제공하여 사용자의 설정에 따라 프로그램이 특정 기능을 수행하도록 한다.<br>
+ex> ./interpose -a [binary]</li>
+<li> 이 프로그램은 기본적으로 세가지 기본적인 동작을 제공한다.</li>
+<ul>
+<li> -a: 해당 process가 사용하는 write system call의 destination을 모두 standard output으로 변경한다.</li>
+<li> -b: 해당 process가 사용하는 write system call중 standard output으로의 출력인 경우 모두 buffer의 내용을 NULL로 변경한다.</li>
+<li> -c: 해당 process가 사용하는 write system call을 모두 read system call로 변경한다.</li>
+</ul>
+<li><b>[Extra Credit] (10pts.)</b> - 사용자가 더욱 flexible하게 해당 프로그램을 사용할 수 있도록 한다. 추가적 option이나 policy file을 input을 사용자가 입력할 수 있도록 하여 더욱 다양한 system call 조작이 가능하도록 해보자. 위 3가지 동작을 어느정도 커버할 수준의 flexible한 interface를 제공할 경우, 기본 동작들은 별도 구현 requirement에서 제외한다.</li>
+</ol>
 
 <p>
 Suggestion: strace tool을 사용해보길 추천한다.
@@ -164,13 +185,21 @@ timing-attack등의 side-channel이나 covert-channel을 사용하는 공격은 
 - system calls for network (e.g., socket(), connect(), bind(), listen(), accept())<br> 
 - system calls for IPC<br>
 - system calls for memory mapping<br>
-- <b>[Extra credit] - 추가적인 data leakage vector 탐색 및 차단 (10pts)</b><br><br>
+- <b>[Extra credit] (10pts.) - 추가적인 data leakage vector 탐색 및 차단 </b><br><br>
 TIP: strace의 <i>-e trace=xxx</i> option을 사용하면 특정 카테고리의 system call 종류들을 확인할 수 있다.
 <br><br>
 <i>Requirements></i><br>
-Sandbox program은 실행시 binary의 path를 input으로 받아 이를 sandbox안에서 수행시킨다.
-Sandbox program은 sandboxed process가 호출하는 system call 정보를 user가 보기 쉽게 출력한다 (strace 참조).
-Sandbox program은 user에게 두가지 실행 option을 제공하여 sandboxed application이 허용되지 않은 system call을 호출했을 때에 1) 해당 system call 정보를 출력하고 계속 process를 진행시키거나 2) 정보 출력과 동시에 sandboxed process를 kill하도록 한다. 그 외의 유용한 추가 option들은 자율에 맡긴다.
+<ol>
+<li>Sandbox program은 실행시 binary의 path를 input으로 받아 이를 sandbox안에서 수행시킨다. (1번과 동일)<br>
+ex> ./sandbox [binary]</li>
+<li>Sandbox program은 sandboxed process가 호출하는 system call 정보를 user가 보기 쉽게 출력한다 (1번과 동일).</li>
+<li>Sandbox program은 user에게 두가지 실행 option을 제공하여 sandboxed application이 허용되지 않은 system call을 호출했을 때에 다음과 같은 동작을 할 수 있다.
+<ul>
+<li> -d: 해당 system call 정보를 출력하고 계속 process를 진행시키거나</li>
+<li> -e: 정보 출력과 동시에 sandboxed process를 kill하도록 한다.</li>
+<li>그 외의 유용한 추가 option들은 자율에 맡긴다.</li>
+</ul>
+</ol>
 
 <p>
 <b>[Extra credit] - seccomp/BPF (10pts)</b><br>
