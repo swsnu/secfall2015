@@ -34,7 +34,7 @@
     *   -b: 해당 process가 사용하는 write system call중 standard output으로의 출력인 경우 모두 buffer의 내용을 NULL로 변경한다.
     *   -c: 해당 process가 사용하는 write system call을 모두 read system call로 변경한다.
 
-    5.  **[Extra Credit] (10pts.)** - 사용자가 더욱 flexible하게 해당 프로그램을 사용할 수 있도록 한다. 추가적 option이나 policy file을 input을 사용자가 입력할 수 있도록 하여 더욱 다양한 system call 조작이 가능하도록 해보자. 위 3가지 동작을 어느정도 커버할 수준의 flexible한 interface를 제공할 경우, 기본 동작들은 별도 구현 requirement에서 제외한다.
+    5.  **[Extra Credit] Commanline interface (10pts.) ** - 사용자가 더욱 flexible하게 해당 프로그램을 사용할 수 있도록 한다. 추가적 option이나 policy file을 input을 사용자가 입력할 수 있도록 하여 더욱 다양한 system call 조작이 가능하도록 해보자. 위 3가지 동작을 어느정도 커버할 수준의 flexible한 interface를 제공할 경우, 기본 동작들은 별도 구현 requirement에서 제외한다.
 
     Suggestion: strace tool을 사용해보길 추천한다. strace는 ptrace에 기반한 system call tracing tool로서 다양한 기능들을 제공한다. strace를 간단히 사용해보면 1번 과제의 올바른 결과를 예측해볼 수 있다. (strace: [strace manual](http://man7.org/linux/man-pages/man1/strace.1.html), [strace source code](http://sourceforge.net/projects/strace/))
 
@@ -48,7 +48,7 @@
     - system calls for network (e.g., socket(), connect(), bind(), listen(), accept())
     - system calls for IPC
     - system calls for memory mapping
-    - **[Extra credit] (10pts.) - 추가적인 data leakage vector 탐색 및 차단**
+    - ** [Extra credit] - 추가적인 data leakage vector 탐색 및 차단 (10pts.) **
 
     TIP: strace의 _-e trace=xxx_ option을 사용하면 특정 카테고리의 system call 종류들을 확인할 수 있다.
 
