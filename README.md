@@ -2,7 +2,7 @@
 
 ## Computer Security Fall 2015
 
-## DUE: 11월 11일 11:59am KST
+### DUE: 11월 11일 11:59am KST
 
 이번 과제는 웹 페이지 상에서 Man-in-the-middle (MITM) 공격을 수행하여 봄으로써 HTTPS에 대한 이해를 높이는 과제이다. 이 과제를 위해서 트래픽을 이해하기 위한 툴 중에 하나인 [Fiddler](http://www.telerik.com/fiddler)를 사용하고자 한다. Fiddler 는 프록시로서 웹 트래픽을 모니터링, 조사, 조작할 수 있는 확장 기능을 갖춘 프리웨어 디버깅 툴이다. Fiddler를 직접 사용해보며 수업 시간에 학습한 MITM 공격의 원리를 이해하고 어떻게 해야 안전하게 HTTPS를 사용할 수 있는지 이해한다.
 
