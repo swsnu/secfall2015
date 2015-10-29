@@ -8,7 +8,7 @@
 
 1.  Fiddler 를 설치한다. Fiddler 는 Windows PC 에서만 설치가 가능하다.
 2.  이번 과제를 위해 Fiddler 를 이용해 진행할 내용은 다음과 같다.
-    *   과제는 다음 웹 페이지의 로그인 폼(Fake Login)에서 수행한다. ([웹 링크](https://147.46.248.177/))
+    *   과제는 다음 웹 페이지의 로그인 폼(Fake Login)에서 수행한다 : [웹 링크](https://147.46.248.177/)
 
     *   로그인 폼에 임의의 아이디와 비밀번호를 입력한 후, 서버로 전송되는 HTTPS 패킷을 Fiddler를 통해 확인한다.
     *   다음의 두 케이스를 관찰해야 한다.
@@ -32,5 +32,5 @@
 
 ### 참고 문헌
 
-[Download Fiddler](http://www.telerik.com/download/fiddler)
+[Download Fiddler](http://www.telerik.com/download/fiddler)  
 [Fiddler Documentation](http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler)
