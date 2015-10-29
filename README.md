@@ -1,6 +1,6 @@
 # Project 3: Man-in-the-middle attack
 
-## Computer Security Fall 2015
+### Computer Security Fall 2015
 
 ### DUE: 11월 11일 11:59am KST
 
