@@ -116,7 +116,7 @@
 <li><b>Systemcall Interposition. (25pts)</b><br>
 
 우리는 대상 process가 사용하는 system call을 interpose하기 위해 Linux에 기본적으로 존재하는 ptrace라는 process tracing facility를 활용한다. ptrace는 외부 process (tracer)가 특정 process (tracee)의 runtime behavior를 trace하고 대상 process (tracee)의 register 및 memory의 값들을 참조하거나 변경할 수 있는 system interface를 제공한다.
-tracer는 ptrace를 사용하 tracee가 사용하는 모든 system call에 대해 entry와 exit point를 intercept할 수 있다.
+tracer는 ptrace를 사용하여 tracee가 사용하는 각 system call에 대해 entry와 exit point를 intercept할 수 있다.
 아래의 3 step을 따라 ptrace의 기능을 활용하여 대상 process가 실행되는 동안 호출하는 system call을 interpose해보자.
 (ptrace 사용법:
 <a href="http://man7.org/linux/man-pages/man2/ptrace.2.html">ptrace manual</a>,
@@ -147,7 +147,7 @@ tracer는 ptrace를 사용하 tracee가 사용하는 모든 system call에 대�
 
 완성된 프로그램은 위에 기능을 사용해볼 수 있는 commandline interface를 제공한다.
 <ol>
-<li> Interposed process가 사용하는 모든 system call을 한줄에 출력한다.</li>
+<li> Interposed process가 사용하는 각 system call을 한줄에 출력한다.</li>
 <li> Command line 옵션 (e.g., -a, -b, -o) 을 제공하여 사용자의 설정에 따라 프로그램이 특정 기능을 수행하도록 한다.<br>
 ex> ./interpose -a [binary]</li>
 <li> 이 프로그램은 기본적으로 세가지 기본적인 동작을 제공한다.</li>
