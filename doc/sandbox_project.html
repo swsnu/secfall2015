@@ -145,9 +145,9 @@ tracer는 ptrace를 사용하여 tracee가 사용하는 각 system call에 대�
 <i>Requirements></i><br>
 
 
-완성된 프로그램은 위에 기능을 사용해볼 수 있는 commandline interface를 제공한다.
+완성된 프로그램은 위의 기능을 사용해볼 수 있는 commandline interface를 제공한다.
 <ol>
-<li> Interposed process가 사용하는 각 system call을 한줄에 출력한다.</li>
+<li> 기본적으로 Interposed process가 system call을 사용하면 관련 정보 (e.g, system call number, arguments) 를 출력한다.</li>
 <li> Command line 옵션 (e.g., -a, -b, -o) 을 제공하여 사용자의 설정에 따라 프로그램이 특정 기능을 수행하도록 한다.<br>
 ex> ./interpose -a [binary]</li>
 <li> 이 프로그램은 기본적으로 세가지 기본적인 동작을 제공한다.</li>
